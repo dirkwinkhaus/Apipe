@@ -61,7 +61,7 @@ class ApipeConfig implements ApipeConfigInterface
      * @param array $config
      * @return array
      */
-    public function dissolveConfig(array $config): array
+    private function dissolveConfig(array $config): array
     {
         if (isset($config['endpointGroups'])) {
             $config['endpointGroups'] = $this->configDissolver->dissolve($config['endpointGroups']);

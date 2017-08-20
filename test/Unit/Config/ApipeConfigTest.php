@@ -24,7 +24,9 @@ class ApipeConfigTest extends TestCase
                 $this->getConfig()
             );
 
+        $config = $apipeConfig->getConfig();
 
+        $this->assertEquals($this->getConfig(), $config);
     }
 
     /**
