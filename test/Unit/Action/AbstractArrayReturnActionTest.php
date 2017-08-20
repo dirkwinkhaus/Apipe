@@ -71,7 +71,7 @@ class AbstractArrayReturnActionTest extends TestCase
         /** @var DelegateInterface $delegateInterface */
         $delegateInterface = $this->prophesize(DelegateInterface::class)->reveal();
 
-        $response = $action->process($serverRequestInterface->reveal(), $delegateInterface);
+        $action->process($serverRequestInterface->reveal(), $delegateInterface);
     }
 
     /**
