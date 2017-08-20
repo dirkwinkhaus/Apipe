@@ -8,6 +8,7 @@
 
 namespace Apipe\Config;
 
+use Symfony\Component\Filesystem\Filesystem;
 use Zend\ServiceManager\Config;
 
 /**
@@ -25,16 +26,25 @@ class ApipeConfig implements ApipeConfigInterface
      * @var ConfigDissolver
      */
     private $configDissolver;
+    /**
+     * @var Filesystem
+     */
+    private $filesystem;
 
     /**
      * ApipeConfig constructor.
-     * @param array $config
+     * @param Filesystem $filesystem
      * @param ConfigDissolver $configDissolver
+     * @param array $config
      */
-    public function __construct(array $config, ConfigDissolver $configDissolver)
-    {
-        $fileName = $this->buildFileName($config);
-        $cacheEnabled  = $this->isCacheEnabled($config);
+    public function __construct(
+        Filesystem $filesystem,
+        ConfigDissolver $configDissolver,
+        array $config
+    ) {
+        $this->filesystem = $filesystem;
+        $fileName         = $this->buildFileName($config);
+        $cacheEnabled     = $this->isCacheEnabled($config);
 
         if ($cacheEnabled && file_exists($fileName)) {
             $this->loadCachedConfig($fileName);
@@ -51,7 +61,8 @@ class ApipeConfig implements ApipeConfigInterface
      * @param array $config
      * @return array
      */
-    public function dissolveConfig(array $config) {
+    public function dissolveConfig(array $config)
+    {
         if (isset($config['endpointGroups'])) {
             $config['endpointGroups'] = $this->configDissolver->dissolve($config['endpointGroups']);
 
@@ -77,7 +88,7 @@ class ApipeConfig implements ApipeConfigInterface
      */
     private function createCacheFile(string $fileName): void
     {
-        file_put_contents(
+        $this->filesystem->dumpFile(
             $fileName,
             sprintf(
                 '<?php %sreturn %s;',
@@ -94,7 +105,7 @@ class ApipeConfig implements ApipeConfigInterface
     private function generateConfig(array $config, ConfigDissolver $configDissolver): void
     {
         $this->configDissolver = $configDissolver;
-        $this->config = $this->dissolveConfig($config);
+        $this->config          = $this->dissolveConfig($config);
     }
 
     /**

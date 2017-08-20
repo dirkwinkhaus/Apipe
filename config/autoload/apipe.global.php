@@ -13,6 +13,7 @@ return [
             \Apipe\Validator\ValidatorFactory::class => \Apipe\Validator\ValidatorFactoryFactory::class,
             \Apipe\Validator\InValidator::class => \Zend\ServiceManager\Factory\InvokableFactory::class,
             \Apipe\Config\ConfigDissolver::class => \Zend\ServiceManager\Factory\InvokableFactory::class,
+            \Symfony\Component\Filesystem\Filesystem::class => \Zend\ServiceManager\Factory\InvokableFactory::class,
         ],
     ],
 ];

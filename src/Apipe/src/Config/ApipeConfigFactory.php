@@ -3,6 +3,7 @@
 namespace Apipe\Config;
 
 use Psr\Container\ContainerInterface;
+use Symfony\Component\Filesystem\Filesystem;
 
 /**
  * Class ApipeConfigFactory
@@ -18,11 +19,17 @@ class ApipeConfigFactory
      */
     public function __invoke(ContainerInterface $container): ApipeConfig
     {
-        /** @var array $config */
-        $config = $container->get('config');
+        /** @var Filesystem $fileSystem */
+        $fileSystem = $container->get(Filesystem::class);
         /** @var ConfigDissolver $configDissolver */
         $configDissolver = $container->get(ConfigDissolver::class);
+        /** @var array $config */
+        $config = $container->get('config');
 
-        return new ApipeConfig($config['apipe'], $configDissolver);
+        return new ApipeConfig(
+            $fileSystem,
+            $configDissolver,
+            $config['apipe']
+        );
     }
 }
