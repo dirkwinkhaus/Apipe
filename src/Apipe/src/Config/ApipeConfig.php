@@ -61,7 +61,7 @@ class ApipeConfig implements ApipeConfigInterface
      * @param array $config
      * @return array
      */
-    public function dissolveConfig(array $config)
+    public function dissolveConfig(array $config): array
     {
         if (isset($config['endpointGroups'])) {
             $config['endpointGroups'] = $this->configDissolver->dissolve($config['endpointGroups']);
@@ -122,7 +122,8 @@ class ApipeConfig implements ApipeConfigInterface
      */
     private function buildFileName(array $config): string
     {
-        return $config['settings']['cache']['filePath'] . '/config.cache.php' ?? './config.cache.php';
+        $filePath = $config['settings']['cache']['filePath'] ?? '.';
+        return $filePath . '/config.cache.php';
     }
 
     /**
