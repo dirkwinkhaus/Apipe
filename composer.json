@@ -32,5 +32,14 @@
             "Api\\ErrorHandler\\": "src/Api/src/ErrorHandler/src",
             "Apipe\\": "src/Apipe/src"
         }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Apipe\\": [
+                "src/Apipe/src",
+                "test/Unit",
+                "test/Integration"
+            ]
+        }
     }
 }
